@@ -1,4 +1,5 @@
-import React from "react"
+import React, { Suspense, useState } from "react"
+import { lazy } from "react"
 import  ReactDOM  from "react-dom/client"
 import Header from "./components/Header"
 import Footer from "./components/Footer"
@@ -7,14 +8,25 @@ import About from './components/About'
 import Error from './components/Error'
 import { createBrowserRouter,RouterProvider } from "react-router-dom"
 import { Outlet } from "react-router-dom"
+import Hotelmenu from "./components/Hotelmenu"
+import Shimmer from "./components/Shimmer"
+import Usercontext from "./utils/Usercontext"
+import { Provider } from "react-redux"
+import store from "./utils/store"
+import Foodcart from "./components/Foodcart"
+
+
+const Groccery=lazy(()=>import('./components/Groccery'))
 const App=()=>{
+  const[data,setData]=useState('')
   return(
-  <div className="app">
-      <Header/>
-      <Outlet/>
-      <Footer/>
-  
-  </div>
+ 
+ <Provider store={store}>
+        <Header/>
+        <Outlet/> 
+        <Footer/>
+   </Provider>
+ 
   )
 }
 const approuter=createBrowserRouter([
@@ -33,6 +45,18 @@ const approuter=createBrowserRouter([
     {
       path:'/about',
       element:<About/>
+    },
+    {
+      path:'/cart',
+      element:<Foodcart/>
+    },
+    {
+      path:'/hotelmenu/:resId',
+      element:<Hotelmenu/>
+    },
+    {
+      path:'/groccery',
+      element:<Suspense fallback={<Shimmer/>}><Groccery/></Suspense>
     }
     ],
     errorElement:<Error/>

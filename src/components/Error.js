@@ -5,6 +5,7 @@ function Error() {
     
   return(
     <center>
+        <h1>Notfound</h1>
         <h1>{error.status}: {error.statusText}!!</h1>
    </center>
   )
